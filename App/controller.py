@@ -44,7 +44,7 @@ def loadData(catalog):
 def loadVideos(catalog):
     """Crea un diccionario con la informacion del video para que sea posteriormente agregado
     al catalogo en su lista correspondiente"""
-    videosfile = cf.data_dir + 'GoodReads/videos-large.csv'
+    videosfile = cf.data_dir + 'videos-small.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
         filtrado= {}
@@ -67,7 +67,7 @@ def loadCategory(catalog):
     """Crea un diccionario con la informacion de la categoria
     para que sea posteriormente agregado
     al catalogo en su lista correspondiente"""
-    categoriesfile = cf.data_dir + 'GoodReads/category-id.csv'
+    categoriesfile = cf.data_dir + 'category-id.csv'
     input_file = csv.DictReader(open(categoriesfile, encoding='utf-8'))
     for category in input_file:
         category_list = category['id\tname'].split('\t')

@@ -28,6 +28,7 @@
 import config as cf
 import time
 from DISClib.ADT import list as lt
+from DISClib.ADT import map as mp
 from DISClib.Algorithms.Sorting import mergesort as mer
 from DISClib.Algorithms.Sorting import shellsort as she
 from DISClib.Algorithms.Sorting import quicksort as qui
@@ -44,7 +45,10 @@ def newCatalog():
     catalog = {'videos': None,
                 'categories': None}
     catalog['videos'] = lt.newList('ARRAY_LIST')
-    catalog['categories'] = lt.newList('ARRAY_LIST', cmpfunction=comparecatnames)
+    catalog['categories'] = mp.newMap(33,
+                                      maptype='PROBING',
+                                      loadfactor=0.5,
+                                      comparefunction=comparecatnames)
     return catalog
 
 # Funciones para agregar informacion al catalogo

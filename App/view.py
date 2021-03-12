@@ -41,6 +41,9 @@ def printMenu():
     print("3- Encontrar tendencia por pais")
     print("4- Encontrar tendencia por categoria")
     print("5- Buscar los videos con mas likes")
+    print("(LAB) 6- Buscar los videos con mas likes por categoría")
+    print("0- Salir")
+
 
 def print_resultsReq1(ord_vids, sample):
     size = lt.size(ord_vids)
@@ -149,6 +152,20 @@ while True:
         controller.limpieza(filtrado_tags_y_pais)
         controller.limpieza(filtrado_pais)
         controller.limpieza(videos_likes)
+
+    elif int(inputs[0]) == 6: # Print LAB 6
+        categoria = input("Ingrese la categoría que desea que buscar (si es una palabra, importan las mayúsculas): " )
+        categoria = categoria.lower()
+        categoria = " "+categoria
+        sample = int(input("Ingrese la cantidad de video que desea ver: "))
+        lista = controller.lista(catalog)
+        cat_num = controller.idCat(catalog, categoria)
+        filtrado_categoria = controller.filtrado_categoria(lista, cat_num)
+        videos_likes = controller.sortVideosReq4(filtrado_categoria)
+        print_resultsReq4(videos_likes[1], sample)
+        controller.limpieza(filtrado_categoria)
+        controller.limpieza(videos_likes)
+        #controller.limpieza(filtrado_pais)
     else:
         sys.exit(0)
 sys.exit(0)
