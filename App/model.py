@@ -29,6 +29,7 @@ import config as cf
 import time
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
+from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import mergesort as mer
 from DISClib.Algorithms.Sorting import shellsort as she
 from DISClib.Algorithms.Sorting import quicksort as qui
@@ -43,12 +44,19 @@ los mismos.
 
 def newCatalog():
     catalog = {'videos': None,
-                'categories': None}
+                'categories': None,
+                'Cat-id': None,
+                'paises': None}
     catalog['videos'] = lt.newList('ARRAY_LIST')
-    catalog['categories'] = mp.newMap(33,
+    catalog['categories'] = lt.newList('ARRAY_LIST', comparecatnames)
+    catalog["Cat-id"]= mp.newMap(33,
+                                      maptype='CHAINING',
+                                      loadfactor=4.0,
+                                      comparefunction=compareMapcatId)                                  
+    catalog['paises']= mp.newMap(50,
                                       maptype='PROBING',
                                       loadfactor=0.5,
-                                      comparefunction=comparecatnames)
+                                      comparefunction=comparecountry)
     return catalog
 
 # Funciones para agregar informacion al catalogo
@@ -63,7 +71,41 @@ def addVideo(catalog, video):
         del video 
     """
     lt.addLast(catalog['videos'], video)
+    mp.put(catalog["Cat-id"], video["category_id"],video)
 
+def addVidCat(catalog, video):
+    try:
+        categorias = catalog['Cat-id']
+        cat_vid= video['category_id']
+        existcat = mp.contains(categorias,cat_vid)
+        if existcat:
+            entry = mp.get(categorias,cat_vid)
+            categoria = me.getValue(entry)
+            mp.put()
+        lt.addLast(categoria['videos'], video)
+    except Exception:
+        return None
+
+def addCountry(catalog,video):
+    try:
+        paises = catalog['paises']
+        paistend= video['country']
+        existpais = mp.contains(paises, paistend)
+        if existpais:
+            entry = mp.get(paises, paistend)
+            pais = me.getValue(entry)
+        else:
+            pais = newpais(paistend)
+            mp.put(paises, paistend, pais)
+        lt.addLast(pais['videos'], video)
+    except Exception:
+        return None
+
+def newpais(paistend):
+    entry= {'year': "", 'videos': None}
+    entry['year']= paistend
+    entry['videos']= lt.newList('SINGLE_LINKED', comparecountry)
+    return entry
 
 def addCategory(catalog, category):
     """Agrega un video al final de la lista de categorias en el catalogo
@@ -75,7 +117,8 @@ def addCategory(catalog, category):
         de la categoria 
     """
     c = newCategory(category['name'], category['id'])
-    lt.addLast(catalog['categories'], c)
+    lt.addLast(catalog['categories'],c)
+    mp.put(catalog['Cat-id'], category['id'], c)
 
 # Funciones para creacion de datos
 
@@ -84,9 +127,15 @@ def newCategory(category_name, category_id):
     Return:
         Un diccionario con la informacion de la categoria.
     """
-    category = {'category_name': '', 'category_id': ''}
+    category = {'category_name': '',
+                 'category_id': '',
+                 'total_videos': 0,
+                 'videos': None,
+                 'count': 0.0}
+    
     category['category_name'] = category_name.lower()
     category['category_id'] = category_id
+    category['videos']: lt.newList()
     return category
 
 # Funciones de consulta/filtrado
@@ -260,7 +309,15 @@ def trending_2(videos_ordenados):
 def comparecatnames(category_name, category):
     """compara el nombre de la categoria que entra por parametro con uno de los que ya se encuentran en el catalogo"""
     return (category_name == category['category_name'])
- 
+
+def comparecountry(pais1, pais2):
+    if pais1==pais2:
+        return 0
+    elif pais1 > pais2:
+        return 1
+    else:
+        return -1
+
 def compareviews(video1, video2):
     """ Compara el número de 'views' que tiene
         un video.
@@ -297,6 +354,15 @@ def comparetitle(video1, video2):
     """
     result = (video1['title'] > video2['title'])
     return result
+
+def compareMapcatId(Id, entry):
+    identry= me.getKey(entry)
+    if int(Id) == int(identry):
+        return 0
+    elif int(Id) > int(identry):
+        return 1
+    else:
+        return -1
 
 def comparedates(video1, video2):
     result = video1['trending_date'] < video2['trending_date']
