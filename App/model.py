@@ -45,18 +45,19 @@ los mismos.
 def newCatalog():
     catalog = {'videos': None,
                 'categories': None,
-                'Cat-id': None,
+                'cat-id': None,
                 'paises': None}
+
     catalog['videos'] = lt.newList('ARRAY_LIST')
     catalog['categories'] = lt.newList('ARRAY_LIST', comparecatnames)
-    catalog["Cat-id"]= mp.newMap(33,
-                                      maptype='CHAINING',
-                                      loadfactor=4.0,
-                                      comparefunction=compareMapcatId)                                  
-    catalog['paises']= mp.newMap(50,
-                                      maptype='PROBING',
-                                      loadfactor=0.5,
-                                      comparefunction=comparecountry)
+    catalog["cat-id"] = mp.newMap(33,
+                                  maptype='CHAINING',
+                                  loadfactor=4.0,
+                                  comparefunction=compareMapcatId)                                  
+    catalog['paises'] = mp.newMap(50,
+                                  maptype='PROBING',
+                                  loadfactor=0.5,
+                                  comparefunction=comparecountry)
     return catalog
 
 # Funciones para agregar informacion al catalogo
@@ -71,17 +72,18 @@ def addVideo(catalog, video):
         del video 
     """
     lt.addLast(catalog['videos'], video)
-    mp.put(catalog["Cat-id"], video["category_id"],video)
+    mp.put(catalog["cat-id"], video["category_id"], video)
 
 def addVidCat(catalog, video):
     try:
-        categorias = catalog['Cat-id']
-        cat_vid= video['category_id']
-        existcat = mp.contains(categorias,cat_vid)
+        categorias = catalog['cat-id']
+        cat_vid = video['category_id']
+        existcat = mp.contains(categorias, cat_vid)
         if existcat:
-            entry = mp.get(categorias,cat_vid)
+            entry = mp.get(categorias, cat_vid)
+            key = me.getKey(entry)
             categoria = me.getValue(entry)
-            mp.put()
+            mp.put(catalog['cat-id'], key, categoria)
         lt.addLast(categoria['videos'], video)
     except Exception:
         return None
@@ -117,8 +119,8 @@ def addCategory(catalog, category):
         de la categoria 
     """
     c = newCategory(category['name'], category['id'])
-    lt.addLast(catalog['categories'],c)
-    mp.put(catalog['Cat-id'], category['id'], c)
+    lt.addLast(catalog['categories'], c)
+    mp.put(catalog['cat-id'], category['id'], c)
 
 # Funciones para creacion de datos
 
@@ -135,7 +137,8 @@ def newCategory(category_name, category_id):
     
     category['category_name'] = category_name.lower()
     category['category_id'] = category_id
-    category['videos']: lt.newList()
+    category['videos'] = lt.newList()
+    category['total_videos'] = lt.size(category['videos'])
     return category
 
 # Funciones de consulta/filtrado
@@ -311,7 +314,7 @@ def comparecatnames(category_name, category):
     return (category_name == category['category_name'])
 
 def comparecountry(pais1, pais2):
-    if pais1==pais2:
+    if pais1 == pais2:
         return 0
     elif pais1 > pais2:
         return 1
@@ -368,7 +371,7 @@ def comparedates(video1, video2):
     result = video1['trending_date'] < video2['trending_date']
     return result
 
-def comparelikes(video1, video2):
+def comparelikes(likes1, likes2):
     """ Compara el número de 'likes' que tiene
         un video.
 
@@ -384,8 +387,12 @@ def comparelikes(video1, video2):
         condición (en este caso, True si los 'likes'
         del video1 son mayores que los del video2).
     """
-    result = (int(video1['likes']) > int(video2['likes']))
-    return result
+    if int(likes1) > int(likes2):
+        return 1
+    elif int(likes1) == int(likes2):
+        return 0
+    else:
+        return -1
 
 def compareids(video1, video2):
     """ Compara el id que tiene un video.
@@ -532,3 +539,29 @@ def limpieza(lista):
     y lo retorna none para evitar que se llene la memoria RAM"""
     lista = None
     return lista
+
+
+
+#===========00
+#================00
+
+def prueba(catalog, categoria):
+    lista_ordenada = lt.newList('ARRAY_LIST')
+    id_video = ''
+    lista = catalog['categories']
+    size = lt.size(lista)
+    for i in range(size):
+        video = lt.getElement(lista, i)
+        if video['category_name'] == categoria:
+            id_video = video['category_id']
+
+    keys = mp.keySet(catalog['cat-id'])
+    for i in lt.iterator(keys):
+        key_value = mp.get(catalog['cat-id'], i)
+        value = me.getValue(key_value)
+        if id_video == me.getKey(key_value):
+            lista_ordenada = sortVideosReq4(value)
+    
+    print(catalog['cat-id'])
+    return lista_ordenada
+    

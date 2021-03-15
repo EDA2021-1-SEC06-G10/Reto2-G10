@@ -36,7 +36,7 @@ operación solicitada
 
 def printMenu():
     print("Bienvenido")
-    print("1- Cargar información en el catálogo")
+    print("1- Inicializar y cargar información en el catálogo")
     print("2- Encontrar buenos videos")
     print("3- Encontrar tendencia por pais")
     print("4- Encontrar tendencia por categoria")
@@ -159,12 +159,13 @@ while True:
         categoria = " "+categoria
         sample = int(input("Ingrese la cantidad de video que desea ver: "))
         lista = controller.lista(catalog)
-        cat_num = controller.idCat(catalog, categoria)
-        filtrado_categoria = controller.filtrado_categoria(lista, cat_num)
-        videos_likes = controller.sortVideosReq4(filtrado_categoria)
-        print_resultsReq4(videos_likes[1], sample)
-        controller.limpieza(filtrado_categoria)
-        controller.limpieza(videos_likes)
+        #cat_num = controller.idCat(catalog, categoria)
+        #filtrado_categoria = controller.filtrado_categoria(lista, cat_num)
+        #videos_likes = controller.sortVideosReq4(filtrado_categoria)
+        lista_ordenada = controller.prueba(catalog, categoria)
+        print_resultsReq4(lista_ordenada, sample)
+        #controller.limpieza(filtrado_categoria)
+        #controller.limpieza(videos_likes)
         #controller.limpieza(filtrado_pais)
     else:
         sys.exit(0)

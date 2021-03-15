@@ -47,7 +47,7 @@ def loadVideos(catalog):
     videosfile = cf.data_dir + 'videos-small.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
-        filtrado= {}
+        filtrado = {}
         filtrado["video_id"] = video["video_id"]
         filtrado["trending_date"] = video["trending_date"]
         filtrado["title"] = video["title"]
@@ -126,3 +126,8 @@ def trending(lista):
 
 def trending_2(lista):
     return model.trending_2(lista)
+
+#=========0
+
+def prueba(catalog, categoria):
+    return model.prueba(catalog, categoria)
