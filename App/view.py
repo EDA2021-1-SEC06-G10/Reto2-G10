@@ -153,7 +153,7 @@ while True:
         controller.limpieza(filtrado_pais)
         controller.limpieza(videos_likes)
 
-    elif int(inputs[0]) == 6: # Print LAB 6
+    elif int(inputs[0]) == 6: # Print LAB 61
         categoria = input("Ingrese la categoría que desea que buscar (si es una palabra, importan las mayúsculas): " )
         categoria = categoria.lower()
         categoria = " "+categoria

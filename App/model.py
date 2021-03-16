@@ -559,7 +559,7 @@ def prueba(catalog, categoria):
         key_value = mp.get(catalog['cat-id'], i)
         value = me.getValue(key_value)
         if id_video == me.getKey(key_value):
-            lista_ordenada = sortVideosReq4(value)
+            lista_ordenada = sortVideosReq4(value['videos'])
     
     print(catalog['cat-id'])
     return lista_ordenada
