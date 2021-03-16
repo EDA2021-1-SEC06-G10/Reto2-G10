@@ -51,8 +51,8 @@ def newCatalog():
     catalog['videos'] = lt.newList('ARRAY_LIST')
     catalog['categories'] = lt.newList('ARRAY_LIST', comparecatnames)
     catalog["cat-id"] = mp.newMap(33,
-                                  maptype='CHAINING',
-                                  loadfactor=4.0,
+                                  maptype='PROBING',
+                                  loadfactor=0.5,
                                   comparefunction=compareMapcatId)                                  
     catalog['paises'] = mp.newMap(50,
                                   maptype='PROBING',
@@ -72,7 +72,9 @@ def addVideo(catalog, video):
         del video 
     """
     lt.addLast(catalog['videos'], video)
-    mp.put(catalog["cat-id"], video["category_id"], video)
+
+    addVidCat(catalog, video)
+    addCountry(catalog,video)
 
 def addVidCat(catalog, video):
     try:
@@ -131,14 +133,11 @@ def newCategory(category_name, category_id):
     """
     category = {'category_name': '',
                  'category_id': '',
-                 'total_videos': 0,
-                 'videos': None,
-                 'count': 0.0}
+                 'videos': None}
     
     category['category_name'] = category_name.lower()
     category['category_id'] = category_id
     category['videos'] = lt.newList()
-    category['total_videos'] = lt.size(category['videos'])
     return category
 
 # Funciones de consulta/filtrado
