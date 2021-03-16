@@ -163,7 +163,7 @@ while True:
         #filtrado_categoria = controller.filtrado_categoria(lista, cat_num)
         #videos_likes = controller.sortVideosReq4(filtrado_categoria)
         lista_ordenada = controller.prueba(catalog, categoria)
-        print_resultsReq4(lista_ordenada, sample)
+        print_resultsReq4(lista_ordenada[1], sample)
         #controller.limpieza(filtrado_categoria)
         #controller.limpieza(videos_likes)
         #controller.limpieza(filtrado_pais)

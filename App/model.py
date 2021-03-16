@@ -370,7 +370,7 @@ def comparedates(video1, video2):
     result = video1['trending_date'] < video2['trending_date']
     return result
 
-def comparelikes(likes1, likes2):
+def comparelikes(video1, video2):
     """ Compara el número de 'likes' que tiene
         un video.
 
@@ -386,12 +386,8 @@ def comparelikes(likes1, likes2):
         condición (en este caso, True si los 'likes'
         del video1 son mayores que los del video2).
     """
-    if int(likes1) > int(likes2):
-        return 1
-    elif int(likes1) == int(likes2):
-        return 0
-    else:
-        return -1
+    result = int(video1['likes']) > int(video2['likes'])
+    return result
 
 def compareids(video1, video2):
     """ Compara el id que tiene un video.
@@ -561,6 +557,6 @@ def prueba(catalog, categoria):
         if id_video == me.getKey(key_value):
             lista_ordenada = sortVideosReq4(value['videos'])
     
-    print(catalog['cat-id'])
+    #print(catalog['cat-id'])
     return lista_ordenada
     
