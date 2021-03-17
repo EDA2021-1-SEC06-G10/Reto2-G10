@@ -541,6 +541,7 @@ def limpieza(lista):
 #================00
 
 def prueba(catalog, categoria):
+    t1 = time.process_time()
     lista_ordenada = lt.newList('ARRAY_LIST')
     id_video = ''
     lista = catalog['categories']
@@ -556,7 +557,9 @@ def prueba(catalog, categoria):
         value = me.getValue(key_value)
         if id_video == me.getKey(key_value):
             lista_ordenada = sortVideosReq4(value['videos'])
-    
+    t2 = time.process_time()
+    tiempo_ms = (t2-t1)*1000
+    print('Tiempo: ' + str(tiempo_ms))
     #print(catalog['cat-id'])
     return lista_ordenada
     
