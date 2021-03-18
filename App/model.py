@@ -40,7 +40,9 @@ Se define la estructura de un catálogo de videos. El catálogo tendrá dos list
 los mismos.
 """
 
-# Construccion de modelos
+#=========================================
+# Construcción de modelos
+#=========================================
 
 def newCatalog():
     catalog = {'videos': None,
@@ -60,7 +62,9 @@ def newCatalog():
                                   comparefunction=comparecountry)
     return catalog
 
-# Funciones para agregar informacion al catalogo
+#================================================
+# Funciones para agregar información al catálogo
+#================================================
 
 def addVideo(catalog, video):
     """Agrega un video al final del catalogo
@@ -124,7 +128,9 @@ def addCategory(catalog, category):
     lt.addLast(catalog['categories'], c)
     mp.put(catalog['cat-id'], category['id'], c)
 
-# Funciones para creacion de datos
+#=========================================
+# Funciones para creación de datos
+#=========================================
 
 def newCategory(category_name, category_id):
     """Se crea un nuevo diccionario para cada categoria en el cual se guarda el id y el nombre de la categoria
@@ -140,7 +146,9 @@ def newCategory(category_name, category_id):
     category['videos'] = lt.newList()
     return category
 
+#=========================================
 # Funciones de consulta/filtrado
+#=========================================
 
 def filtrado_pais(catalog, pais):
     """ Filtra los datos y hace una lista nueva
@@ -306,7 +314,9 @@ def trending_2(videos_ordenados):
     video = lt.getElement(videos_ordenados, posicion)
     return (mayor, video)
 
+#======================================================================
 # Funciones utilizadas para comparar elementos dentro de una lista
+#======================================================================
 
 def comparecatnames(category_name, category):
     """compara el nombre de la categoria que entra por parametro con uno de los que ya se encuentran en el catalogo"""
@@ -420,7 +430,9 @@ def lista(catalog):
     lista = catalog["videos"]
     return lista
 
+#=========================================
 # Funciones de ordenamiento
+#=========================================
 
 def sortVideos(lista):
     """ Función sort para ordenar los videos con
@@ -537,8 +549,9 @@ def limpieza(lista):
 
 
 
-#===========00
-#================00
+#=========================================
+# Función del LAB 6
+#=========================================
 
 def prueba(catalog, categoria):
     t1 = time.process_time()
@@ -560,6 +573,5 @@ def prueba(catalog, categoria):
     t2 = time.process_time()
     tiempo_ms = (t2-t1)*1000
     print('Tiempo: ' + str(tiempo_ms))
-    #print(catalog['cat-id'])
     return lista_ordenada
     
