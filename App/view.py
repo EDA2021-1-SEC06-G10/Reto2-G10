@@ -91,15 +91,18 @@ Menu principal
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
+
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos .... ")
-        t1 = time.process_time_ns()
+        #t1 = time.process_time_ns()
         catalog = initCatolog()
-        loadData(catalog)
-        t2 = time.process_time_ns()
-        print("El tiempo transcurrido fue: "+ str(t2-t1))
+        answer = controller.loadData(catalog)
+        #t2 = time.process_time_ns()
+        #print("El tiempo transcurrido fue: "+ str(t2-t1))
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))
         print('Categorías cargadas: ' + str(lt.size(catalog['categories'])))
+        print('Tiempo [ms]: ', f'{answer[0]:.3f}', " || ", 
+              'Memoria [kB]: ', f'{answer[1]:.3f}')
 
     elif int(inputs[0]) == 2: # Print Requerimiento 1
         pais = input("Ingrese el pais para el cual desea realizar la búsqueda: ")
