@@ -103,7 +103,7 @@ while True:
         print('Categorías cargadas: ' + str(lt.size(catalog['categories'])))
         print('Tiempo [ms]: ', f'{answer[0]:.3f}', " || ", 
               'Memoria [kB]: ', f'{answer[1]:.3f}')
-
+        print(catalog['categories'])
     elif int(inputs[0]) == 2: # Print Requerimiento 1
         pais = input("Ingrese el pais para el cual desea realizar la búsqueda: ")
         pais= pais.lower()
@@ -133,15 +133,14 @@ while True:
         categoria= input("Ingrese la categoria para la cual desea ver el video con mas dias como tendencia: ")
         categoria=categoria.lower()
         categoria= " "+categoria
-        lista= controller.lista(catalog)
         cat_num = controller.idCat(catalog, categoria)
-        filtro_cat = controller.filtrado_categoria(lista, cat_num)
-        orden_fecha = controller.sortDate(filtro_cat)
-        orden_id = controller.sortVideosReq3(orden_fecha[1])
+        num = 3
+        vids_cat = controller.consultaCat(catalog, categoria, num)
+        orden_id = controller.sortVideosReq3(vids_cat[1])
         video_mayor = controller.trending(orden_id[1])
         print_resultsReq3(video_mayor)
-        controller.limpieza(lista)
-        controller.limpieza(filtro_cat)
+        controller.limpieza(vids_cat)
+        controller.limpieza(orden_id)
 
     elif int(inputs[0]) == 5: # Print Requerimiento 4
         pais = input("Ingrese el pais para el cual desea realizar la búsqueda: ")
@@ -166,6 +165,7 @@ while True:
         #filtrado_categoria = controller.filtrado_categoria(lista, cat_num)
         #videos_likes = controller.sortVideosReq4(filtrado_categoria)
         lista_ordenada = controller.prueba(catalog, categoria)
+        test= controller.sortVideosReq4(lista_ordenada)
         print_resultsReq4(lista_ordenada[1], sample)
         #controller.limpieza(filtrado_categoria)
         #controller.limpieza(videos_likes)

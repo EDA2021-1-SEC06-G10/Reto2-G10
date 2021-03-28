@@ -161,6 +161,8 @@ def trending_2(lista):
 #=========================================
 # Función LAB 6
 #=========================================
+def consultaCat(catalog, categoria,num):
+    return model.prueba(catalog, categoria)
 
 def prueba(catalog, categoria):
     return model.prueba(catalog, categoria)

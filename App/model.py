@@ -54,11 +54,11 @@ def newCatalog():
     catalog['categories'] = lt.newList('ARRAY_LIST', comparecatnames)
     catalog["cat-id"] = mp.newMap(33,
                                   maptype='CHAINING',
-                                  loadfactor=0.5,
+                                  loadfactor=4.0,
                                   comparefunction=compareMapcatId)                                  
     catalog['paises'] = mp.newMap(50,
                                   maptype='CHAINING',
-                                  loadfactor=0.5,
+                                  loadfactor=4.0,
                                   comparefunction=comparecountry)
     return catalog
 
@@ -112,7 +112,7 @@ def addCountry(catalog,video):
 def newpais(paistend):
     entry= {'year': "", 'videos': None}
     entry['year']= paistend
-    entry['videos']= lt.newList('SINGLE_LINKED', comparecountry)
+    entry['videos']= lt.newList('ARRAY_LIST', comparecountry)
     return entry
     
 def addCategory(catalog, category):
@@ -124,13 +124,23 @@ def addCategory(catalog, category):
         categoria: diccionario con la informacion
         de la categoria 
     """
+    c1= newCategoryL(category['name'], category['id'])
     c = newCategory(category['name'], category['id'])
-    lt.addLast(catalog['categories'], c)
+    lt.addLast(catalog['categories'], c1)
     mp.put(catalog['cat-id'], category['id'], c)
 
 #=========================================
 # Funciones para creación de datos
 #=========================================
+def newCategoryL(category_name, category_id):
+    """Se crea un nuevo diccionario para cada categoria en el cual se guarda el id y el nombre de la categoria
+    Return:
+        Un diccionario con la informacion de la categoria.
+    """
+    category = {'category_name': '', 'category_id': ''}
+    category['category_name'] = category_name.lower()
+    category['category_id'] = category_id
+    return category
 
 def newCategory(category_name, category_id):
     """Se crea un nuevo diccionario para cada categoria en el cual se guarda el id y el nombre de la categoria
@@ -143,12 +153,33 @@ def newCategory(category_name, category_id):
     
     category['category_name'] = category_name.lower()
     category['category_id'] = category_id
-    category['videos'] = lt.newList()
+    category['videos'] = lt.newList('ARRAY_LIST')
     return category
 
 #=========================================
 # Funciones de consulta/filtrado
 #=========================================
+
+def consultaCat(catalog, categoria, num):
+    t1 = time.process_time()
+    id_video = ''
+    lista = catalog['categories']
+    size = lt.size(lista)
+    for i in range(size):
+        video = lt.getElement(lista, i)
+        if video['category_name'] == categoria:
+            id_video = video['category_id']
+    keys = mp.keySet(catalog['cat-id'])
+    key_value = mp.get(catalog['cat-id'], categoria)
+    value = me.getValue(key_value)
+    if num==1:
+        lista= sortVideosReq4(value['videos'])
+    elif num==3:
+        lista= sortDate(value['videos'])
+    t2 = time.process_time()
+    tiempo_ms = (t2-t1)*1000
+    print('Tiempo: ' + str(tiempo_ms))
+    return lista
 
 def filtrado_pais(catalog, pais):
     """ Filtra los datos y hace una lista nueva
@@ -565,11 +596,9 @@ def prueba(catalog, categoria):
             id_video = video['category_id']
 
     keys = mp.keySet(catalog['cat-id'])
-    for i in lt.iterator(keys):
-        key_value = mp.get(catalog['cat-id'], i)
-        value = me.getValue(key_value)
-        if id_video == me.getKey(key_value):
-            lista_ordenada = sortVideosReq4(value['videos'])
+    key_value = mp.get(catalog['cat-id'], id_video)
+    value = me.getValue(key_value)
+    lista_ordenada = sortVideosReq4(value['videos'])
     t2 = time.process_time()
     tiempo_ms = (t2-t1)*1000
     print('Tiempo: ' + str(tiempo_ms))
