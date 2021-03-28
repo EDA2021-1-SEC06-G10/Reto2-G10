@@ -47,11 +47,13 @@ los mismos.
 def newCatalog():
     catalog = {'videos': None,
                 'categories': None,
+                'ctry':None,
                 'cat-id': None,
                 'paises': None}
 
     catalog['videos'] = lt.newList('ARRAY_LIST')
     catalog['categories'] = lt.newList('ARRAY_LIST', comparecatnames)
+    catalog['ctry']=lt.newList('ARRAY_LIST', comparecountry)
     catalog["cat-id"] = mp.newMap(33,
                                   maptype='CHAINING',
                                   loadfactor=4.0,
@@ -106,13 +108,13 @@ def addCountry(catalog,video):
             pais = newpais(paistend)
             mp.put(paises, paistend, pais)
         lt.addLast(pais['videos'], video)
+        lt.addLast(catalog["ctry"], paistend)
     except Exception:
         return None
 
 def newpais(paistend):
-    entry= {'year': "", 'videos': None}
-    entry['year']= paistend
-    entry['videos']= lt.newList('ARRAY_LIST', comparecountry)
+    entry= {'videos': None}
+    entry['videos']= lt.newList('ARRAY_LIST')
     return entry
     
 def addCategory(catalog, category):
@@ -159,7 +161,15 @@ def newCategory(category_name, category_id):
 #=========================================
 # Funciones de consulta/filtrado
 #=========================================
-
+def paisyCat(catalog, pais, cat_num):
+    t1 = time.process_time()
+    keys = mp.keySet(catalog['paises'])
+    print(keys)
+    key_value=mp.get(catalog['paises'], pais)
+    value= me.getValue(key_value)
+    print(value['videos'])
+    lta=filtrado_categoria(value['videos'], cat_num)
+    return lta
 def consultaCat(catalog, categoria, num):
     t1 = time.process_time()
     id_video = ''
@@ -360,7 +370,7 @@ def comparecountry(pais1, pais2):
         return 1
     else:
         return -1
-
+    #return  (pais1 == pais2)
 def compareviews(video1, video2):
     """ Compara el número de 'views' que tiene
         un video.

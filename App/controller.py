@@ -132,6 +132,8 @@ def limpieza(lista):
 #=========================================
 # Funciones de consulta sobre el catálogo
 #=========================================
+def paisyCat(catalog, pais, cat_num):
+    return model.paisyCat(catalog, pais, cat_num)
 
 def filtrado_pais(catalog, pais):
     """Llama a la funcion 'filtrado_pais()' del modelo"""

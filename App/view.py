@@ -103,7 +103,7 @@ while True:
         print('Categorías cargadas: ' + str(lt.size(catalog['categories'])))
         print('Tiempo [ms]: ', f'{answer[0]:.3f}', " || ", 
               'Memoria [kB]: ', f'{answer[1]:.3f}')
-        print(catalog['categories'])
+        print(catalog['ctry'])
     elif int(inputs[0]) == 2: # Print Requerimiento 1
         pais = input("Ingrese el pais para el cual desea realizar la búsqueda: ")
         pais= pais.lower()
@@ -111,14 +111,15 @@ while True:
         categoria = categoria.lower()
         categoria = " " + categoria
         tamano = int(input("Ingrese la cantidad de videos que desea ver: "))
-        filtrado_pais = controller.filtrado_pais(catalog, pais)
+        #filtrado_pais = controller.filtrado_pais(catalog, pais)
         num_categoria = controller.idCat(catalog, categoria)
-        filtrado_categoria = controller.filtrado_categoria(filtrado_pais, num_categoria)
+        filtrado_categoria= controller.paisyCat(catalog, pais, num_categoria)
+        #filtrado_categoria = controller.filtrado_categoria(filtrado_pais, num_categoria)
         result = controller.sortVideos(filtrado_categoria)
         print_resultsReq1(result[1], tamano)
-        controller.limpieza(filtrado_categoria)
-        controller.limpieza(filtrado_pais)
-        controller.limpieza(result)
+        #controller.limpieza(filtrado_categoria)
+        #controller.limpieza(filtrado_pais)
+        #controller.limpieza(result)
 
     elif int(inputs[0]) == 3: # Print Requerimiento 2
         pais = input('Ingrese el pais para el cual desea realizar la búsqueda: ')
