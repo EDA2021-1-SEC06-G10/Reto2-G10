@@ -103,7 +103,6 @@ while True:
         print('Categorías cargadas: ' + str(lt.size(catalog['categories'])))
         print('Tiempo [ms]: ', f'{answer[0]:.3f}', " || ", 
               'Memoria [kB]: ', f'{answer[1]:.3f}')
-        print(catalog['ctry'])
     elif int(inputs[0]) == 2: # Print Requerimiento 1
         pais = input("Ingrese el pais para el cual desea realizar la búsqueda: ")
         pais= pais.lower()

@@ -53,7 +53,6 @@ def newCatalog():
 
     catalog['videos'] = lt.newList('ARRAY_LIST')
     catalog['categories'] = lt.newList('ARRAY_LIST', comparecatnames)
-    catalog['ctry']=lt.newList('ARRAY_LIST', comparecountry)
     catalog["cat-id"] = mp.newMap(33,
                                   maptype='CHAINING',
                                   loadfactor=4.0,
@@ -61,7 +60,7 @@ def newCatalog():
     catalog['paises'] = mp.newMap(50,
                                   maptype='CHAINING',
                                   loadfactor=4.0,
-                                  comparefunction=comparecountry)
+                                  comparefunction=compareMapcountry)
     return catalog
 
 #================================================
@@ -108,7 +107,7 @@ def addCountry(catalog,video):
             pais = newpais(paistend)
             mp.put(paises, paistend, pais)
         lt.addLast(pais['videos'], video)
-        lt.addLast(catalog["ctry"], paistend)
+
     except Exception:
         return None
 
@@ -170,6 +169,7 @@ def paisyCat(catalog, pais, cat_num):
     print(value['videos'])
     lta=filtrado_categoria(value['videos'], cat_num)
     return lta
+
 def consultaCat(catalog, categoria, num):
     t1 = time.process_time()
     id_video = ''
@@ -363,10 +363,11 @@ def comparecatnames(category_name, category):
     """compara el nombre de la categoria que entra por parametro con uno de los que ya se encuentran en el catalogo"""
     return (category_name == category['category_name'])
 
-def comparecountry(pais1, pais2):
-    if pais1 == pais2:
+def compareMapcountry(Id, entry):
+    identry= me.getKey(entry)
+    if Id == identry:
         return 0
-    elif pais1 > pais2:
+    elif Id > identry:
         return 1
     else:
         return -1
