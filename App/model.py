@@ -163,10 +163,8 @@ def newCategory(category_name, category_id):
 def paisyCat(catalog, pais, cat_num):
     t1 = time.process_time()
     keys = mp.keySet(catalog['paises'])
-    print(keys)
     key_value=mp.get(catalog['paises'], pais)
     value= me.getValue(key_value)
-    print(value['videos'])
     lta=filtrado_categoria(value['videos'], cat_num)
     return lta
 
