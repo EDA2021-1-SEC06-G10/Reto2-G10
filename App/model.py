@@ -163,8 +163,10 @@ def newCategory(category_name, category_id):
 def paisyCat(catalog, pais, cat_num):
     t1 = time.process_time()
     keys = mp.keySet(catalog['paises'])
+    print(keys)
     key_value=mp.get(catalog['paises'], pais)
     value= me.getValue(key_value)
+    print(value['videos'])
     lta=filtrado_categoria(value['videos'], cat_num)
     return lta
 
@@ -353,6 +355,103 @@ def trending_2(videos_ordenados):
     video = lt.getElement(videos_ordenados, posicion)
     return (mayor, video)
 
+def consultaMapaReq3(catalog, categoria):
+    """ Entra en el mapa y ordena los videos según la
+        función de ordenamiento especificada (en este
+        caso es sortVideosReq4(), es decir, ordena
+        dependiendo del número de likes).
+    
+    Parámetros:
+        catalog: es el catálogo donde está toda la
+        información cargada.
+
+        categoria: es el nombre de la categoría que
+        ingresa el usuario.
+    
+    Retorna:
+        Una tupla, en el que la primera posición
+        ([0]) es el tiempo que tarda la función
+        en ordenar, y la segunda es la lista
+        ordenada.
+    """
+    t1 = time.process_time()
+    lista_ordenada = lt.newList('ARRAY_LIST')
+    id_video = ''
+    lista = catalog['categories']
+    size = lt.size(lista)
+    for i in range(size):
+        video = lt.getElement(lista, i)
+        if video['category_name'] == categoria:
+            id_video = video['category_id']
+
+    keys = mp.keySet(catalog['cat-id'])
+    key_value = mp.get(catalog['cat-id'], id_video)
+    value = me.getValue(key_value)
+    lista_ordenada = sortVideosReq4(value['videos'])
+    t2 = time.process_time()
+    tiempo_ms = (t2-t1) * 1000
+    #print('Tiempo: ' + str(tiempo_ms))
+    return lista_ordenada
+    
+def consultaMapaReq2(catalog, pais):
+    """ Entra en el mapa y ordena los videos según la
+        función de ordenamiento especificada (en este
+        caso es sortVideosReq2(), es decir, ordena
+        dependiendo del id del video).
+    
+    Parámetros:
+        catalog: es el catálogo donde está toda la
+        información cargada.
+
+        pais: es el nombre del pais que el usuario
+        ingresa.
+    
+    Retorna:
+        Una tupla, en el que la primera posición
+        ([0]) es el tiempo que tarda la función
+        en ordenar, y la segunda es la lista
+        ordenada.
+    """
+    t1 = time.process_time()
+    lista_ordenada = lt.newList('ARRAY_LIST')
+    keys = mp.keySet(catalog['paises'])
+    key_value = mp.get(catalog['paises'], pais)
+    value = me.getValue(key_value)
+    lista_ordenada = sortVideosReq2(value['videos'])
+    t2 = time.process_time()
+    tiempo_ms = (t2-t1) * 1000
+    #print('Tiempo: ' + str(tiempo_ms))
+    return lista_ordenada
+
+def consultaMapaReq4(catalog, pais):
+    """ Entra en el mapa y ordena los videos según la
+        función de ordenamiento especificada (en este
+        caso es sortVideosReq4(), es decir, ordena
+        dependiendo del número de likes).
+    
+    Parámetros:
+        catalog: es el catálogo donde está toda la
+        información cargada.
+
+        pais: es el nombre del pais que el usuario
+        ingresa.
+    
+    Retorna:
+        Una tupla, en el que la primera posición
+        ([0]) es el tiempo que tarda la función
+        en ordenar, y la segunda es la lista
+        ordenada.
+    """
+    t1 = time.process_time()
+    lista_ordenada = lt.newList('ARRAY_LIST')
+    keys = mp.keySet(catalog['paises'])
+    key_value = mp.get(catalog['paises'], pais)
+    value = me.getValue(key_value)
+    lista_ordenada = sortVideosReq4(value['videos'])
+    t2 = time.process_time()
+    tiempo_ms = (t2-t1) * 1000
+    #print('Tiempo: ' + str(tiempo_ms))
+    return lista_ordenada
 #======================================================================
 # Funciones utilizadas para comparar elementos dentro de una lista
 #======================================================================
@@ -370,6 +469,7 @@ def compareMapcountry(Id, entry):
     else:
         return -1
     #return  (pais1 == pais2)
+
 def compareviews(video1, video2):
     """ Compara el número de 'views' que tiene
         un video.
@@ -586,30 +686,3 @@ def limpieza(lista):
     y lo retorna none para evitar que se llene la memoria RAM"""
     lista = None
     return lista
-
-
-
-#=========================================
-# Función del LAB 6
-#=========================================
-
-def prueba(catalog, categoria):
-    t1 = time.process_time()
-    lista_ordenada = lt.newList('ARRAY_LIST')
-    id_video = ''
-    lista = catalog['categories']
-    size = lt.size(lista)
-    for i in range(size):
-        video = lt.getElement(lista, i)
-        if video['category_name'] == categoria:
-            id_video = video['category_id']
-
-    keys = mp.keySet(catalog['cat-id'])
-    key_value = mp.get(catalog['cat-id'], id_video)
-    value = me.getValue(key_value)
-    lista_ordenada = sortVideosReq4(value['videos'])
-    t2 = time.process_time()
-    tiempo_ms = (t2-t1)*1000
-    print('Tiempo: ' + str(tiempo_ms))
-    return lista_ordenada
-    

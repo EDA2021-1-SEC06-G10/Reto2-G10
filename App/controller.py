@@ -71,7 +71,7 @@ def loadData(catalog):
 def loadVideos(catalog):
     """Crea un diccionario con la informacion del video para que sea posteriormente agregado
     al catalogo en su lista correspondiente"""
-    videosfile = cf.data_dir + 'videos-small.csv'
+    videosfile = cf.data_dir + 'videos-chiquitín.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
         filtrado = {}
@@ -148,26 +148,32 @@ def filtrado_categoria(lista, categoria):
     return model.filtrado_categoria(lista, categoria)
 
 def filtrado_tags(catalog, tag):
-    """Llama a la funcion 'filtrado_categoria()' del modelo"""
+    """Llama a la funcion 'filtrado_tags()' del modelo"""
     return model.filtrado_tags(catalog, tag)
 
 def idCat(catalog, categoria):
+    """Llama a la funcion 'idCat()' del modelo"""
     return model.idCat(catalog, categoria)
 
 def trending(lista):
+    """Llama a la funcion 'trending()' del modelo"""
     return model.trending(lista)
 
 def trending_2(lista):
+    """Llama a la funcion 'trending_2()' del modelo"""
     return model.trending_2(lista)
 
-#=========================================
-# Función LAB 6
-#=========================================
-def consultaCat(catalog, categoria,num):
-    return model.prueba(catalog, categoria)
+def consultaCat(catalog, categoria, num):
+    """Llama a la funcion 'consultaMapaReq3()' del modelo"""
+    return model.consultaMapaReq3(catalog, categoria)
 
-def prueba(catalog, categoria):
-    return model.prueba(catalog, categoria)
+def consultaMapaReq2(catalog, pais):
+    """Llama a la funcion 'consultaMapaReq2()' del modelo"""
+    return model.consultaMapaReq2(catalog, pais)
+
+def consultaMapaReq4(catalog, pais):
+    """Llama a la función 'consultaMapaReq4' del modelo"""
+    return model.consultaMapaReq4(catalog, pais)
 
 #==============================================
 # Funciones para medir tiempo y uso de memoria

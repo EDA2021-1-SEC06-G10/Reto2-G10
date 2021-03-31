@@ -103,6 +103,7 @@ while True:
         print('Categorías cargadas: ' + str(lt.size(catalog['categories'])))
         print('Tiempo [ms]: ', f'{answer[0]:.3f}', " || ", 
               'Memoria [kB]: ', f'{answer[1]:.3f}')
+
     elif int(inputs[0]) == 2: # Print Requerimiento 1
         pais = input("Ingrese el pais para el cual desea realizar la búsqueda: ")
         pais= pais.lower()
@@ -112,7 +113,7 @@ while True:
         tamano = int(input("Ingrese la cantidad de videos que desea ver: "))
         #filtrado_pais = controller.filtrado_pais(catalog, pais)
         num_categoria = controller.idCat(catalog, categoria)
-        filtrado_categoria= controller.paisyCat(catalog, pais, num_categoria)
+        filtrado_categoria = controller.paisyCat(catalog, pais, num_categoria)
         #filtrado_categoria = controller.filtrado_categoria(filtrado_pais, num_categoria)
         result = controller.sortVideos(filtrado_categoria)
         print_resultsReq1(result[1], tamano)
@@ -123,10 +124,10 @@ while True:
     elif int(inputs[0]) == 3: # Print Requerimiento 2
         pais = input('Ingrese el pais para el cual desea realizar la búsqueda: ')
         pais = pais.lower()
-        filtrado_pais = controller.filtrado_pais(catalog, pais)
-        result = controller.sortVideosReq2(filtrado_pais)
-        video_tendencia = controller.trending_2(result[1])
+        lista_videos = controller.consultaMapaReq2(catalog, pais)
+        video_tendencia = controller.trending_2(lista_videos[1])
         print_resultsReq2(video_tendencia)
+        controller.limpieza(lista_videos)
         controller.limpieza(video_tendencia)
 
     elif int(inputs[0]) == 4: # Print Requerimiento 3
@@ -147,13 +148,11 @@ while True:
         pais = pais.lower()
         tag = input("Ingrese el tag que desea que buscar (si es una palabra, importan las mayúsculas): " )
         sample = int(input("Ingrese la cantidad de video que desea ver: "))
-        filtrado_pais = controller.filtrado_pais(catalog, pais)
-        filtrado_tags_y_pais = controller.filtrado_tags(filtrado_pais, tag)
-        videos_likes = controller.sortVideosReq4(filtrado_tags_y_pais)
-        print_resultsReq4(videos_likes[1], sample)
-        controller.limpieza(filtrado_tags_y_pais)
-        controller.limpieza(filtrado_pais)
-        controller.limpieza(videos_likes)
+        lista_videos = controller.consultaMapaReq4(catalog, pais)
+        lista_likes = controller.filtrado_tags(lista_videos[1], tag)
+        print_resultsReq4(lista_likes, sample)
+        controller.limpieza(lista_videos)
+        controller.limpieza(lista_likes)
 
     elif int(inputs[0]) == 6: # Print LAB 61
         categoria = input("Ingrese la categoría que desea que buscar (si es una palabra, importan las mayúsculas): " )
