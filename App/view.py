@@ -41,7 +41,7 @@ def printMenu():
     print("3- Encontrar tendencia por pais")
     print("4- Encontrar tendencia por categoria")
     print("5- Buscar los videos con mas likes")
-    print("(LAB) 6- Buscar los videos con mas likes por categoría")
+    #print("(LAB) 6- Buscar los videos con mas likes por categoría")
     print("0- Salir")
 
 
@@ -52,27 +52,27 @@ def print_resultsReq1(ord_vids, sample):
         i = 1
         while i <= sample:
             video= lt.getElement(ord_vids,i)
-            print("Titulo: " + video['title'] + " Fecha tendencia: " +  video["trending_date"]  + " Canal: " + video["channel_title"]+ " Momento de publicacion: " + video["publish_time"] + " Views: "+ str(video["views"]) + " Likes: " + str(video["likes"])+ " Dislikes: " + str(video["dislikes"]) + '.')
+            print("Titulo: " + video['title'] + " || " + " Fecha tendencia: " +  video["trending_date"] + " || " + " Canal: " + video["channel_title"] + " || " + " Momento de publicacion: " + video["publish_time"] + " || " + " Views: "+ str(video["views"]) + " || " + " Likes: " + str(video["likes"]) + " || " + " Dislikes: " + str(video["dislikes"]) + '.')
             i += 1
 
 def print_resultsReq2(tupla):
     dias = tupla[0]
     video_tendencia = tupla[1]
-    print("Titulo: " + video_tendencia['title'] + " Nombre del canal: " +  video_tendencia['channel_title']  + ' País: ' + video_tendencia['country'] + ' Días: ' + str(dias) + '.')
+    print("Titulo: " + video_tendencia['title'] + " || " + " Nombre del canal: " +  video_tendencia['channel_title'] + " || "  + ' País: ' + video_tendencia['country'] + " || " + ' Días: ' + str(dias) + '.')
 
 def print_resultsReq3(tupla):
     dias = tupla[0]
     video = tupla[1]
-    print("Titulo: " + video['title'] + " Nombre del canal: " +  video['channel_title'] + " Categoria: " + str(video['category_id'])+ " Dias: " + str(dias) + '.')
+    print("Titulo: " + video['title'] + " || " + " Nombre del canal: " +  video['channel_title'] + " || " + " Categoria: " + str(video['category_id']) + " || " + " Dias: " + str(dias) + '.')
 
 def print_resultsReq4(ord_vids, sample):
     size = lt.size(ord_vids)
     if size > sample:
-        print("Los " + str(sample) + " videos con más likes son : ")
+        print("Los " + str(sample) + " videos con más likes son: ")
         i = 1
         while i <= sample:
             video= lt.getElement(ord_vids,i)
-            print("Titulo: " + video['title'] + " Nombre del canal: " + video["channel_title"] + " Momento de publicacion: " + video["publish_time"] + " Views: "+ str(video["views"]) + " Likes: " + str(video["likes"])+ " Dislikes: " + str(video["dislikes"]) + ' Tags: ' + video['tags'] + '. ')
+            print("Titulo: " + video['title'] + " || " + " Nombre del canal: " + video["channel_title"] + " || " + " Momento de publicacion: " + video["publish_time"] + " || " + " Views: "+ str(video["views"]) + " || " + " Likes: " + str(video["likes"]) + " || " + " Dislikes: " + str(video["dislikes"]) + " || " + ' Tags: ' + video['tags'] + '.')
             i += 1
     else:
         print("La cantidad que desea ver excede la cantidad de videos que desea ver")
@@ -131,9 +131,9 @@ while True:
         controller.limpieza(video_tendencia)
 
     elif int(inputs[0]) == 4: # Print Requerimiento 3
-        categoria= input("Ingrese la categoria para la cual desea ver el video con mas dias como tendencia: ")
-        categoria=categoria.lower()
-        categoria= " "+categoria
+        categoria = input("Ingrese la categoria para la cual desea ver el video con mas dias como tendencia: ")
+        categoria = categoria.lower()
+        categoria = " " + categoria
         cat_num = controller.idCat(catalog, categoria)
         num = 3
         vids_cat = controller.consultaCat(catalog, categoria, num)
@@ -154,18 +154,18 @@ while True:
         controller.limpieza(lista_videos)
         controller.limpieza(lista_likes)
 
-    elif int(inputs[0]) == 6: # Print LAB 61
-        categoria = input("Ingrese la categoría que desea que buscar (si es una palabra, importan las mayúsculas): " )
-        categoria = categoria.lower()
-        categoria = " "+categoria
-        sample = int(input("Ingrese la cantidad de video que desea ver: "))
-        lista = controller.lista(catalog)
+    #elif int(inputs[0]) == 6: # Print LAB 6
+        #categoria = input("Ingrese la categoría que desea que buscar (si es una palabra, importan las mayúsculas): " )
+        #categoria = categoria.lower()
+        #categoria = " "+categoria
+        #sample = int(input("Ingrese la cantidad de video que desea ver: "))
+        #lista = controller.lista(catalog)
         #cat_num = controller.idCat(catalog, categoria)
         #filtrado_categoria = controller.filtrado_categoria(lista, cat_num)
         #videos_likes = controller.sortVideosReq4(filtrado_categoria)
-        lista_ordenada = controller.prueba(catalog, categoria)
-        test= controller.sortVideosReq4(lista_ordenada)
-        print_resultsReq4(lista_ordenada[1], sample)
+        #lista_ordenada = controller.prueba(catalog, categoria)
+        #test= controller.sortVideosReq4(lista_ordenada)
+        #print_resultsReq4(lista_ordenada[1], sample)
         #controller.limpieza(filtrado_categoria)
         #controller.limpieza(videos_likes)
         #controller.limpieza(filtrado_pais)

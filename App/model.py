@@ -68,13 +68,14 @@ def newCatalog():
 #================================================
 
 def addVideo(catalog, video):
-    """Agrega un video al final del catalogo
-    Parametros:
+    """ Agrega un video al final del catálogo.
+
+    Parámetros:
         catalog: el catálogo principal creado
         en la función 'newCatalog()'.
 
-        video: diccionario con la informacion
-        del video 
+        video: diccionario con la información
+        del video. 
     """
     lt.addLast(catalog['videos'], video)
 
@@ -82,6 +83,15 @@ def addVideo(catalog, video):
     addCountry(catalog,video)
 
 def addVidCat(catalog, video):
+    """ Agrega un video al final del catálogo.
+    
+    Parámetros:
+        catalog: el catálogo principal creado
+        en la función 'newCatalog()'.
+
+        video: diccionario con la información
+        del video. 
+    """
     try:
         categorias = catalog['cat-id']
         cat_vid = video['category_id']
@@ -96,6 +106,15 @@ def addVidCat(catalog, video):
         return None
 
 def addCountry(catalog,video):
+    """ Agrega un video al final del catálogo.
+    
+    Parámetros:
+        catalog: el catálogo principal creado
+        en la función 'newCatalog()'.
+
+        video: diccionario con la información
+        del video. 
+    """
     try:
         paises = catalog['paises']
         paistend= video['country']
@@ -117,13 +136,15 @@ def newpais(paistend):
     return entry
     
 def addCategory(catalog, category):
-    """Agrega un video al final de la lista de categorias en el catalogo
-    Parametros:
+    """ Agrega un video al final de la lista de categorias
+        en el catálogo.
+    
+    Parámetros:
         catalog: el catálogo principal creado
         en la función 'newCatalog()'.
 
-        categoria: diccionario con la informacion
-        de la categoria 
+        categoria: diccionario con la información
+        de la categoría. 
     """
     c1= newCategoryL(category['name'], category['id'])
     c = newCategory(category['name'], category['id'])
@@ -133,8 +154,17 @@ def addCategory(catalog, category):
 #=========================================
 # Funciones para creación de datos
 #=========================================
+
 def newCategoryL(category_name, category_id):
-    """Se crea un nuevo diccionario para cada categoria en el cual se guarda el id y el nombre de la categoria
+    """ Se crea un nuevo diccionario para cada categoría
+        en el cual se guarda el id y el nombre de la
+        categoría.
+
+    Parámetros:
+        category_name: es el nombre de la categoría.
+
+        category_id: es el id de la categoría.
+
     Return:
         Un diccionario con la informacion de la categoria.
     """
@@ -144,9 +174,17 @@ def newCategoryL(category_name, category_id):
     return category
 
 def newCategory(category_name, category_id):
-    """Se crea un nuevo diccionario para cada categoria en el cual se guarda el id y el nombre de la categoria
+    """ Se crea un nuevo diccionario para cada categoría
+        en el cual se guarda el id y el nombre de la
+        categoría.
+    
+    Parámetros:
+        category_name: es el nombre de la categoría.
+
+        category_id: es el id de la categoría.
+
     Return:
-        Un diccionario con la informacion de la categoria.
+        Un diccionario con la información de la categoria.
     """
     category = {'category_name': '',
                  'category_id': '',
@@ -160,32 +198,38 @@ def newCategory(category_name, category_id):
 #=========================================
 # Funciones de consulta/filtrado
 #=========================================
+
 def paisyCat(catalog, pais, cat_num):
+    """
+    """
     t1 = time.process_time()
     keys = mp.keySet(catalog['paises'])
     print(keys)
-    key_value=mp.get(catalog['paises'], pais)
-    value= me.getValue(key_value)
+    key_value = mp.get(catalog['paises'], pais)
+    value = me.getValue(key_value)
     print(value['videos'])
-    lta=filtrado_categoria(value['videos'], cat_num)
+    lta = filtrado_categoria(value['videos'], cat_num)
     return lta
 
 def consultaCat(catalog, categoria, num):
+    """
+    """
     t1 = time.process_time()
-    id_video = ''
-    lista = catalog['categories']
-    size = lt.size(lista)
-    for i in range(size):
-        video = lt.getElement(lista, i)
-        if video['category_name'] == categoria:
-            id_video = video['category_id']
+    #id_video = ''
+    #lista = catalog['categories']
+    #size = lt.size(lista)
+    #for i in range(size):
+    #    video = lt.getElement(lista, i)
+    #    if video['category_name'] == categoria:
+    #        id_video = video['category_id']
+
     keys = mp.keySet(catalog['cat-id'])
     key_value = mp.get(catalog['cat-id'], categoria)
     value = me.getValue(key_value)
-    if num==1:
-        lista= sortVideosReq4(value['videos'])
-    elif num==3:
-        lista= sortDate(value['videos'])
+    if num == 1:
+        lista = sortVideosReq4(value['videos'])
+    elif num == 3:
+        lista = sortDate(value['videos'])
     t2 = time.process_time()
     tiempo_ms = (t2-t1)*1000
     print('Tiempo: ' + str(tiempo_ms))
@@ -254,18 +298,21 @@ def filtrado_tags(lista, tag):
             lt.addLast(lista_tags_y_pais, video)
     return lista_tags_y_pais
 
-def idCat(catalog,categoria):
-    """
-    Encuentra el id de la categoria que entra por parametro
+def idCat(catalog, categoria):
+    """ Encuentra el id de la categoria que entra por
+        parametro.
+
     Parámetros:
         catalog: el catálogo principal creado
         en la función 'newCatalog()'.
         
-        categoria: nombre de la categoria en la cual el usuario desea hacer su busqueda
-    Return:
-        el int que corresponde a la categoria ingresada por parametro.
+        categoria: nombre de la categoria en la
+        cual el usuario desea hacer su busqueda.
 
-        """
+    Return:
+        El int que corresponde a la categoria ingresada
+        por parámetro.
+    """
     num_cat = None
     for kategorien in lt.iterator(catalog["categories"]):
         if categoria == kategorien["category_name"]:
@@ -354,6 +401,36 @@ def trending_2(videos_ordenados):
     
     video = lt.getElement(videos_ordenados, posicion)
     return (mayor, video)
+   
+def consultaMapaReq2(catalog, pais):
+    """ Entra en el mapa y ordena los videos según la
+        función de ordenamiento especificada (en este
+        caso es sortVideosReq2(), es decir, ordena
+        dependiendo del id del video).
+    
+    Parámetros:
+        catalog: es el catálogo donde está toda la
+        información cargada.
+
+        pais: es el nombre del pais que el usuario
+        ingresa.
+    
+    Retorna:
+        Una tupla, en el que la primera posición
+        ([0]) es el tiempo que tarda la función
+        en ordenar, y la segunda es la lista
+        ordenada.
+    """
+    t1 = time.process_time()
+    lista_ordenada = lt.newList('ARRAY_LIST')
+    keys = mp.keySet(catalog['paises'])
+    key_value = mp.get(catalog['paises'], pais)
+    value = me.getValue(key_value)
+    lista_ordenada = sortVideosReq2(value['videos'])
+    t2 = time.process_time()
+    tiempo_ms = (t2-t1) * 1000
+    #print('Tiempo: ' + str(tiempo_ms))
+    return lista_ordenada
 
 def consultaMapaReq3(catalog, categoria):
     """ Entra en el mapa y ordena los videos según la
@@ -383,41 +460,12 @@ def consultaMapaReq3(catalog, categoria):
         video = lt.getElement(lista, i)
         if video['category_name'] == categoria:
             id_video = video['category_id']
+    #id_video = idCat(catalog, categoria)
 
     keys = mp.keySet(catalog['cat-id'])
     key_value = mp.get(catalog['cat-id'], id_video)
     value = me.getValue(key_value)
     lista_ordenada = sortVideosReq4(value['videos'])
-    t2 = time.process_time()
-    tiempo_ms = (t2-t1) * 1000
-    #print('Tiempo: ' + str(tiempo_ms))
-    return lista_ordenada
-    
-def consultaMapaReq2(catalog, pais):
-    """ Entra en el mapa y ordena los videos según la
-        función de ordenamiento especificada (en este
-        caso es sortVideosReq2(), es decir, ordena
-        dependiendo del id del video).
-    
-    Parámetros:
-        catalog: es el catálogo donde está toda la
-        información cargada.
-
-        pais: es el nombre del pais que el usuario
-        ingresa.
-    
-    Retorna:
-        Una tupla, en el que la primera posición
-        ([0]) es el tiempo que tarda la función
-        en ordenar, y la segunda es la lista
-        ordenada.
-    """
-    t1 = time.process_time()
-    lista_ordenada = lt.newList('ARRAY_LIST')
-    keys = mp.keySet(catalog['paises'])
-    key_value = mp.get(catalog['paises'], pais)
-    value = me.getValue(key_value)
-    lista_ordenada = sortVideosReq2(value['videos'])
     t2 = time.process_time()
     tiempo_ms = (t2-t1) * 1000
     #print('Tiempo: ' + str(tiempo_ms))
@@ -452,15 +500,34 @@ def consultaMapaReq4(catalog, pais):
     tiempo_ms = (t2-t1) * 1000
     #print('Tiempo: ' + str(tiempo_ms))
     return lista_ordenada
-#======================================================================
-# Funciones utilizadas para comparar elementos dentro de una lista
-#======================================================================
+
+#==========================================================================
+# Funciones utilizadas para comparar elementos dentro de una/un lista/mapa
+#==========================================================================
 
 def comparecatnames(category_name, category):
-    """compara el nombre de la categoria que entra por parametro con uno de los que ya se encuentran en el catalogo"""
+    """ Compara el nombre de la categoria que entra
+        por parametro con uno de los que ya se encuentran
+        en el catálogo.
+
+    Parámetros:
+        category_name: es el nombre de la categoría que
+        se quiere comparar.
+
+        category: es la sección del catálogo de donde se
+        saca el nombre de la categoría.
+
+    Retorna:
+        Un booleano que indica si sí se cumple la
+        condición (en este caso, True si el nombre
+        ingresado por parámetro es igual al que está
+        en el catálogo).
+    """
     return (category_name == category['category_name'])
 
 def compareMapcountry(Id, entry):
+    """
+    """
     identry= me.getKey(entry)
     if Id == identry:
         return 0
@@ -508,6 +575,8 @@ def comparetitle(video1, video2):
     return result
 
 def compareMapcatId(Id, entry):
+    """
+    """
     identry= me.getKey(entry)
     if int(Id) == int(identry):
         return 0
@@ -517,6 +586,21 @@ def compareMapcatId(Id, entry):
         return -1
 
 def comparedates(video1, video2):
+    """ Compara las fechas en trending que tiene
+        un video.
+
+    Parámetros:
+        video1: es una lista de videos de donde se 
+        ve la fecha de trending para comparar.
+
+        video2: es una lista de videos de donde se 
+        ve la fecha de trending para comparar.
+    
+    Return:
+        Un booleano que indica si sí se cumple la
+        condición (en este caso, True si la fecha
+        del video1 es menor que la del video2).
+    """
     result = video1['trending_date'] < video2['trending_date']
     return result
 
@@ -647,6 +731,19 @@ def sortVideosReq3(lista):
     return (tiempo_ms, sorted_list)
 
 def sortDate(lista):
+    """ Función sort para ordenar los videos con
+        las condiciones de la cmpfunction. En este
+        caso, la función de comparación es:
+                    comparedates().
+
+    Parámetros:
+        lista: es la lista que se va a ordenar.
+    
+    Return:
+        Una tupla en la que la primera posición
+        es el tiempo que tarde la función en ordenar
+        y la segunda posición es la lista ordenada.
+    """
     size = lt.size(lista)
     sub_list = lt.subList(lista,0,size)
     sub_list = sub_list.copy()
@@ -682,7 +779,16 @@ def sortVideosReq4(lista):
     return (tiempo_ms, sorted_list)
 
 def limpieza(lista):
-    """Esta funcion recibe como parametro cualquier tipo de dato que es requerido temporalmente 
-    y lo retorna none para evitar que se llene la memoria RAM"""
+    """ Esta funcion recibe como parametro cualquier
+        tipo de dato que es requerido temporalmente 
+        y lo retorna none para evitar que se llene la
+        memoria RAM.
+
+    Parámetros:
+        lista: es la lista que se va a limpiar.
+
+    Retorna:
+        La lista que queda vacía (None).
+    """
     lista = None
     return lista
