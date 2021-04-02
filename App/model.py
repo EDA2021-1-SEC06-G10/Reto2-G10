@@ -423,7 +423,7 @@ def consultaMapaReq2(catalog, pais):
     """
     t1 = time.process_time()
     lista_ordenada = lt.newList('ARRAY_LIST')
-    keys = mp.keySet(catalog['paises'])
+    #keys = mp.keySet(catalog['paises'])
     key_value = mp.get(catalog['paises'], pais)
     value = me.getValue(key_value)
     lista_ordenada = sortVideosReq2(value['videos'])
@@ -462,7 +462,7 @@ def consultaMapaReq3(catalog, categoria):
             id_video = video['category_id']
     #id_video = idCat(catalog, categoria)
 
-    keys = mp.keySet(catalog['cat-id'])
+    #keys = mp.keySet(catalog['cat-id'])
     key_value = mp.get(catalog['cat-id'], id_video)
     value = me.getValue(key_value)
     lista_ordenada = sortVideosReq4(value['videos'])
@@ -492,7 +492,7 @@ def consultaMapaReq4(catalog, pais):
     """
     t1 = time.process_time()
     lista_ordenada = lt.newList('ARRAY_LIST')
-    keys = mp.keySet(catalog['paises'])
+    #keys = mp.keySet(catalog['paises'])
     key_value = mp.get(catalog['paises'], pais)
     value = me.getValue(key_value)
     lista_ordenada = sortVideosReq4(value['videos'])
