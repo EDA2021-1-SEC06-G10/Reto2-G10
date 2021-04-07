@@ -74,7 +74,7 @@ def loadVideos(catalog):
     que sea posteriormente agregado al catálogo en su
     lista correspondiente.
     """
-    videosfile = cf.data_dir + 'videos-chiquitín.csv'
+    videosfile = cf.data_dir + 'videos-large.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
         filtrado = {}

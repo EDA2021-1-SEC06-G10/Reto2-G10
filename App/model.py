@@ -207,7 +207,6 @@ def paisyCat(catalog, pais, cat_num):
     print(keys)
     key_value = mp.get(catalog['paises'], pais)
     value = me.getValue(key_value)
-    print(value['videos'])
     lta = filtrado_categoria(value['videos'], cat_num)
     return lta
 
@@ -313,7 +312,7 @@ def idCat(catalog, categoria):
         El int que corresponde a la categoria ingresada
         por parámetro.
     """
-    num_cat = None
+    num_cat = 31
     for kategorien in lt.iterator(catalog["categories"]):
         if categoria == kategorien["category_name"]:
             num_cat = kategorien["category_id"]
