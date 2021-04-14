@@ -144,9 +144,9 @@ while True:
         pais = pais.lower()
         tag = input("Ingrese el tag que desea que buscar (si es una palabra, importan las mayúsculas): " )
         sample = int(input("Ingrese la cantidad de video que desea ver: "))
-        lista_videos = controller.consultaMapaReq4(catalog, pais)
-        lista_likes = controller.filtrado_tags(lista_videos[1], tag)
-        print_resultsReq4(lista_likes, sample)
+        lista_likes = controller.filtro_tags(catalog, pais, tag)
+        lista_videos = controller.sortVideosReq4(lista_likes)
+        print_resultsReq4(lista_videos[1], sample)
         controller.limpieza(lista_videos)
         controller.limpieza(lista_likes)
 

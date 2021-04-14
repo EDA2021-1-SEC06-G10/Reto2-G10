@@ -200,27 +200,62 @@ def newCategory(category_name, category_id):
 #=========================================
 
 def paisyCat(catalog, pais, cat_num):
+    """ Entra en el mapa y filtra los videos de
+        un país específico según la función de 
+        'filtrado_categoria()'.
+    
+    Parámetros:
+        catalog: es el catálogo donde está toda la
+        información cargada.
+
+        pais: es el nombre del pais que el usuario
+        ingresa.
+
+        cat_num: es el número asociado a la categoría
+        ingresada por el usuario en 'View.py'.
+    
+    Retorna:
+        Una lista ya filtrada con los videos
+        asociados al número de la categoría y al pais
+        ingresados como parámetro.
     """
-    """
-    t1 = time.process_time()
     keys = mp.keySet(catalog['paises'])
-    print(keys)
+    #print(keys)
     key_value = mp.get(catalog['paises'], pais)
     value = me.getValue(key_value)
     lta = filtrado_categoria(value['videos'], cat_num)
     return lta
 
-def consultaCat(catalog, categoria):
+def filtro_tags(catalog, pais, tag):
+    """ Entra en el mapa y filtra los videos de
+        un país específico según la función de 
+        'filtrado_tags()'.
+    
+    Parámetros:
+        catalog: es el catálogo donde está toda la
+        información cargada.
+
+        pais: es el nombre del pais que el usuario
+        ingresa.
+
+        tag: es el tag que el usuario ingresa.
+    
+    Retorna:
+        Una lista ya filtrada con los videos
+        asociados al tag y al pais ingresados
+        como parámetro.
     """
-    """
-    #t1 = time.process_time()
-    keys = mp.keySet(catalog['cat-id'])
-    key_value = mp.get(catalog['cat-id'], categoria)
+    t1 = time.process_time()
+    lista_ordenada = lt.newList('ARRAY_LIST')
+    #keys = mp.keySet(catalog['paises'])
+    key_value = mp.get(catalog['paises'], pais)
     value = me.getValue(key_value)
-    lista = sortDate(value['videos'])
-    #t2 = time.process_time()
-    #tiempo_ms = (t2-t1)*1000
-    return lista
+    filtro = filtrado_tags(value['videos'], tag)
+    t2 = time.process_time()
+    tiempo_ms = (t2-t1) * 1000
+    #print('Tiempo: ' + str(tiempo_ms))
+    return filtro
+
 
 def filtrado_pais(catalog, pais):
     """ Filtra los datos y hace una lista nueva
@@ -389,6 +424,34 @@ def trending_2(videos_ordenados):
     video = lt.getElement(videos_ordenados, posicion)
     return (mayor, video)
    
+def consultaCat(catalog, categoria):
+    """ Entra en el mapa y ordena los videos según la
+        función de ordenamiento especificada (en este
+        caso es sortDate(), es decir, ordena
+        dependiendo de la fecha del video).
+    
+    Parámetros:
+        catalog: es el catálogo donde está toda la
+        información cargada.
+
+        categoria: es la categoria asociada ingresada
+        por parámetro.
+    
+    Retorna:
+        Una tupla, en el que la primera posición
+        ([0]) es el tiempo que tarda la función
+        en ordenar, y la segunda es la lista
+        ordenada.
+    """
+    #t1 = time.process_time()
+    keys = mp.keySet(catalog['cat-id'])
+    key_value = mp.get(catalog['cat-id'], categoria)
+    value = me.getValue(key_value)
+    lista = sortDate(value['videos'])
+    #t2 = time.process_time()
+    #tiempo_ms = (t2-t1)*1000
+    return lista
+
 def consultaMapaReq2(catalog, pais):
     """ Entra en el mapa y ordena los videos según la
         función de ordenamiento especificada (en este
@@ -451,36 +514,6 @@ def consultaMapaReq3(catalog, categoria):
 
     #keys = mp.keySet(catalog['cat-id'])
     key_value = mp.get(catalog['cat-id'], id_video)
-    value = me.getValue(key_value)
-    lista_ordenada = sortVideosReq4(value['videos'])
-    t2 = time.process_time()
-    tiempo_ms = (t2-t1) * 1000
-    #print('Tiempo: ' + str(tiempo_ms))
-    return lista_ordenada
-
-def consultaMapaReq4(catalog, pais):
-    """ Entra en el mapa y ordena los videos según la
-        función de ordenamiento especificada (en este
-        caso es sortVideosReq4(), es decir, ordena
-        dependiendo del número de likes).
-    
-    Parámetros:
-        catalog: es el catálogo donde está toda la
-        información cargada.
-
-        pais: es el nombre del pais que el usuario
-        ingresa.
-    
-    Retorna:
-        Una tupla, en el que la primera posición
-        ([0]) es el tiempo que tarda la función
-        en ordenar, y la segunda es la lista
-        ordenada.
-    """
-    t1 = time.process_time()
-    lista_ordenada = lt.newList('ARRAY_LIST')
-    #keys = mp.keySet(catalog['paises'])
-    key_value = mp.get(catalog['paises'], pais)
     value = me.getValue(key_value)
     lista_ordenada = sortVideosReq4(value['videos'])
     t2 = time.process_time()

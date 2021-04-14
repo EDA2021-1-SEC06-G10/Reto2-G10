@@ -74,7 +74,7 @@ def loadVideos(catalog):
     que sea posteriormente agregado al catálogo en su
     lista correspondiente.
     """
-    videosfile = cf.data_dir + 'videos-large.csv'
+    videosfile = cf.data_dir + 'videos-chiquitín.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
         filtrado = {}
@@ -157,6 +157,12 @@ def paisyCat(catalog, pais, cat_num):
     """
     return model.paisyCat(catalog, pais, cat_num)
 
+def filtro_tags(catalog, pais, tag):
+    """
+    Llama a la función 'filtro_tags()' del modelo.
+    """
+    return model.filtro_tags(catalog, pais, tag)
+
 def filtrado_pais(catalog, pais):
     """
     Llama a la funcion 'filtrado_pais()' del modelo.
@@ -212,11 +218,11 @@ def consultaMapaReq2(catalog, pais):
     """
     return model.consultaMapaReq2(catalog, pais)
 
-def consultaMapaReq4(catalog, pais):
+def consultaMapaReq4(catalog, pais, tag):
     """
     Llama a la función 'consultaMapaReq4()' del modelo.
     """
-    return model.consultaMapaReq4(catalog, pais)
+    return model.consultaMapaReq4(catalog, pais, tag)
 
 #==============================================
 # Funciones para medir tiempo y uso de memoria
