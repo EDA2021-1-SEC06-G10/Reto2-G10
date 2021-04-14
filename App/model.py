@@ -771,6 +771,7 @@ def sortDate(lista):
     sorted_list = mer.sort(sub_list, comparedates)
     t2 = time.process_time()
     tiempo_ms = (t2-t1)*1000
+    #print(tiempo_ms)
     sub_list = None
     return (tiempo_ms, sorted_list)
 
