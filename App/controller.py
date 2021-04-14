@@ -199,7 +199,7 @@ def trending_2(lista):
     """
     return model.trending_2(lista)
 
-def consultaCat(catalog, categoria, num):
+def consultaCat(catalog, categoria):
     """
     Llama a la funcion 'consultaMapaReq3()' del modelo.
     """

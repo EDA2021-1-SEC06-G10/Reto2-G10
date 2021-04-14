@@ -132,8 +132,7 @@ while True:
         categoria = categoria.lower()
         categoria = " " + categoria
         cat_num = controller.idCat(catalog, categoria)
-        num = 3
-        vids_cat = controller.consultaCat(catalog, categoria, num)
+        vids_cat = controller.consultaCat(catalog, categoria)
         orden_id = controller.sortVideosReq3(vids_cat[1])
         video_mayor = controller.trending(orden_id[1])
         print_resultsReq3(video_mayor)
@@ -151,21 +150,6 @@ while True:
         controller.limpieza(lista_videos)
         controller.limpieza(lista_likes)
 
-    #elif int(inputs[0]) == 6: # Print LAB 6
-        #categoria = input("Ingrese la categoría que desea que buscar (si es una palabra, importan las mayúsculas): " )
-        #categoria = categoria.lower()
-        #categoria = " "+categoria
-        #sample = int(input("Ingrese la cantidad de video que desea ver: "))
-        #lista = controller.lista(catalog)
-        #cat_num = controller.idCat(catalog, categoria)
-        #filtrado_categoria = controller.filtrado_categoria(lista, cat_num)
-        #videos_likes = controller.sortVideosReq4(filtrado_categoria)
-        #lista_ordenada = controller.prueba(catalog, categoria)
-        #test= controller.sortVideosReq4(lista_ordenada)
-        #print_resultsReq4(lista_ordenada[1], sample)
-        #controller.limpieza(filtrado_categoria)
-        #controller.limpieza(videos_likes)
-        #controller.limpieza(filtrado_pais)
     else:
         sys.exit(0)
 sys.exit(0)

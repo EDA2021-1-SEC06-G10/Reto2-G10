@@ -210,28 +210,16 @@ def paisyCat(catalog, pais, cat_num):
     lta = filtrado_categoria(value['videos'], cat_num)
     return lta
 
-def consultaCat(catalog, categoria, num):
+def consultaCat(catalog, categoria):
     """
     """
-    t1 = time.process_time()
-    #id_video = ''
-    #lista = catalog['categories']
-    #size = lt.size(lista)
-    #for i in range(size):
-    #    video = lt.getElement(lista, i)
-    #    if video['category_name'] == categoria:
-    #        id_video = video['category_id']
-
+    #t1 = time.process_time()
     keys = mp.keySet(catalog['cat-id'])
     key_value = mp.get(catalog['cat-id'], categoria)
     value = me.getValue(key_value)
-    if num == 1:
-        lista = sortVideosReq4(value['videos'])
-    elif num == 3:
-        lista = sortDate(value['videos'])
-    t2 = time.process_time()
-    tiempo_ms = (t2-t1)*1000
-    print('Tiempo: ' + str(tiempo_ms))
+    lista = sortDate(value['videos'])
+    #t2 = time.process_time()
+    #tiempo_ms = (t2-t1)*1000
     return lista
 
 def filtrado_pais(catalog, pais):
